@@ -7,7 +7,7 @@
 
 
 void inserir(Nodo **raiz, long int valor);
-Nodo * busca(Nodo * raiz, long int chave);
+Nodo * buscar(Nodo * raiz, long int chave);
 void imprimir_InO(Nodo *raiz);
 void atualizaAltura(Nodo *raiz);
 bool balanceada(Nodo *raiz);
