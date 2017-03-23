@@ -107,66 +107,97 @@ Nodo * buscar(Nodo *raiz, long int chave){
 	return buscar(raiz->dir, chave);
 }
 
-void remover(Nodo *raiz, long int chave){
+void remover(Nodo **raiz, long int chave){
 	char dir;
 
-	Nodo *aux = _buscaRemover(raiz, chave, &dir);
+	Nodo *aux = _buscaRemover((*raiz), chave, &dir);
 	Nodo *aux_filho;
-	if(aux != NULL){
-		//aux é folha
-		if((aux->esq == NULL) && (aux->dir == NULL)){
-			switch(dir){
-				case 'd':
-					aux->pai->dir = NULL;
-				break;
-				case 'e':
-					aux->pai->esq = NULL;
-				break;
-			}
-			free(aux);
-		}
-		else if(aux->dir == NULL){
-			switch (dir) {
-				case 'd':
-					aux->pai->dir = aux->esq;
-					aux->esq->pai = aux->pai;
-					free(aux);
-				break;
-				case 'e':
-					aux->pai->esq = aux->esq;
-					aux->esq->pai = aux->pai;
-					free(aux);
-				break;
-				case 'n':
-					aux_filho = aux;
-					aux_filho->pai = NULL;
-					free(aux);
-					aux = aux_filho;
-				break;
-			}
-		}
 
-		else if(aux->esq == NULL){
-			switch (dir) {
-				case 'd':
-					aux->pai->dir = aux->dir;
-					aux->dir->pai = aux->pai;
-					free(aux);
-				break;
-				case 'e':
-					aux->pai->esq = aux->dir;
-					aux->dir->pai = aux->pai;
-					free(aux);
-				break;
-				case 'n':
-					aux_filho = aux;
-					aux_filho->pai = NULL;
-					free(aux);
-					aux = aux_filho;
-				break;
-			}
-		}
-	}
+    if(aux != NULL){
+        /*caso: folha*/
+        if((aux->esq == NULL) && (aux->dir == NULL)){
+            switch (dir) {
+                case 'e':
+                    aux->pai->esq = NULL;
+                break;
+                case 'd':
+                    aux->pai->dir = NULL;
+                break;
+                case 'n':
+                    (*raiz) = NULL;
+                break;
+            }
+            free(aux);
+        }
+        /*caso: um filho na esquerda*/
+        else if(aux->dir == NULL){
+            switch (dir) {
+                case 'e':
+                    aux->pai->esq = aux->esq;
+                break;
+                case 'd':
+                    aux->pai->dir = aux->esq;
+                break;
+                case 'n':
+                    (*raiz) = aux->esq;
+                break;
+            }
+            aux->esq->pai = aux->pai;
+            free(aux);
+        }
+        /*caso: um filho na direita*/
+        else if(aux->esq == NULL){
+            switch (dir) {
+                case 'e':
+                    aux->pai->esq = aux->dir;
+                break;
+                case 'd':
+                    aux->pai->dir = aux->dir;
+                break;
+                case 'n':
+                    (*raiz) = aux->dir;
+                break;
+            }
+            aux->dir->pai = aux->pai;
+            free(aux);
+        }
+        /*caso: dois filhos*/
+        else{
+            //procurar antecessor
+            aux_filho = aux->esq;
+            while(aux_filho->dir != NULL)
+                aux_filho = aux_filho->dir;
+
+            //transplantar filhos do antecessor
+            if(aux_filho->esq != NULL){
+                aux_filho->pai->dir = aux_filho->esq;
+                aux_filho->esq->pai = aux_filho->pai;
+            }
+            else
+                aux_filho->pai->dir = NULL;
+
+            //transplantar antecessor
+            aux_filho->esq = aux->esq;
+            aux->esq->pai = aux_filho;
+            aux_filho->dir = aux->dir;
+            aux->dir->pai = aux_filho;
+
+            aux_filho->pai = aux->pai;
+
+            switch (dir) {
+                case 'e':
+                    aux->pai->esq = aux_filho;
+                break;
+                case 'd':
+                    aux->pai->dir = aux_filho;
+                break;
+                case 'n':
+                    (*raiz) = aux_filho;
+            }
+
+            free(aux);
+        }
+    }
 }
 
 Nodo * _buscaRemover(Nodo *raiz, long int chave, char *direcao){

@@ -5,50 +5,53 @@
 
 int main(){
 
-    printf("ok\n");
     Nodo *bst = NULL;
+    char op = 'x';
+    long int v;
 
-	inserir(&bst, 8);
-	inserir(&bst, 4);
-	inserir(&bst, 12);
-	inserir(&bst, 2);
-	inserir(&bst, 6);
-	inserir(&bst, 10);
-    inserir(&bst, 14);
-	inserir(&bst, 2);
-
-    imprimir_InO(bst);
-    printf("\n");
-	printf("H: %ld\n", bst->h);
-
-	if(balanceada(bst))
-		printf("Balanceda\n");
-	else
-		printf("Não balanceada\n");
-
-	if(busca(bst,12) != NULL)
-		printf("12 encontrado\n");
-	else
-		printf("12 não encontrado\n");
-
-	if(busca(bst,6) != NULL)
-		printf("6 encontrado\n");
-	else
-		printf("6 não encontrado\n");
-
-	if(busca(bst,3) != NULL)
-		printf("3 encontrado\n");
-	else
-		printf("3 não encontrado\n");
-
-	if(busca(bst,2) != NULL)
-		printf("2 encontrado\n");
-	else
-		printf("2 não encontrado\n");
-
-	if(busca(bst,1) != NULL)
-		printf("1 encontrado\n");
-	else
-		printf("1 não encontrado\n");
+    printf("Teste BST.\nDigite a operação: \n i - Inserir // s - buscar (search) // r - remover // b - balanceada //\n h - altura (height) // p - imprimir (print) // q - sair (quit)\n\n");
+    while(op != 'q'){
+        scanf("%c",&op );
+        switch (op) {
+            case 'i':
+                printf("Insira o valor (int): ");
+                scanf("%ld", &v);
+                inserir(&bst, v);
+            break;
+            case 's':
+                printf("Insira o valor (int): ");
+                scanf("%ld", &v);
+                if(buscar(bst, v) != NULL)
+                    printf("%ld encontrado\n", v);
+                else
+                    printf("%ld não encontrado\n", v);
+            break;
+            case 'r':
+                printf("Insira o valor (int): ");
+                scanf("%ld", &v);
+                remover(&bst, v);
+            break;
+            case 'b':
+                if(balanceada(bst))
+                    printf("Balanceada\n");
+                else
+                    printf("Não balanceada\n");
+            break;
+            case 'h':
+                atualizaAltura(bst);
+                printf("Altura: %ld\n",bst->h );
+            break;
+            case 'p':
+                imprimir_InO(bst);
+                printf("\n");
+            break;
+            case 'q':
+                printf("Saindo.\n");
+            break;
+            /*default:
+                printf("Operação inválida\n");
+            break;*/
+        }
+    }
     return 0;
 }

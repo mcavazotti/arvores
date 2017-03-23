@@ -8,8 +8,9 @@
 
 void inserir(Nodo **raiz, long int valor);
 Nodo * buscar(Nodo * raiz, long int chave);
-void imprimir_InO(Nodo *raiz);
-void atualizaAltura(Nodo *raiz);
+void remover(Nodo **raiz, long int chave);
 bool balanceada(Nodo *raiz);
+void atualizaAltura(Nodo *raiz);
+void imprimir_InO(Nodo *raiz);
 
 #endif
