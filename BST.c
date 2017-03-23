@@ -213,6 +213,6 @@ Nodo * _buscaRemover(Nodo *raiz, long int chave, char *direcao){
 		return raiz;
 	}
 	if(raiz->chave > chave)
-		return buscar(raiz->esq, chave);
-	return buscar(raiz->dir, chave);
+		return _buscaRemover(raiz->esq, chave,direcao);
+	return _buscaRemover(raiz->dir, chave,direcao);
 }
