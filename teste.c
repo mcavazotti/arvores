@@ -38,8 +38,12 @@ int main(){
                     printf("Não balanceada\n");
             break;
             case 'h':
-                atualizaAltura(bst);
-                printf("Altura: %ld\n",bst->h );
+		if(bst == NULL)
+			printf("Árvore vazia\n");
+		else{
+	                atualizaAltura(bst);
+        	        printf("Altura: %ld\n",bst->h );
+		}
             break;
             case 'p':
                 imprimir_InO(bst);
