@@ -7,6 +7,7 @@
 
 
 void inserir(Nodo **raiz, long int valor);
+void inserirB(Nodo **raiz, long int valor);
 Nodo * buscar(Nodo * raiz, long int chave);
 void remover(Nodo **raiz, long int chave);
 bool balanceada(Nodo *raiz);

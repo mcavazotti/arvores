@@ -32,3 +32,8 @@ Nodo * _buscaRemover(Nodo *raiz, long int chave, char *direcao){
 		return _buscaRemover(raiz->esq, chave,direcao);
 	return _buscaRemover(raiz->dir, chave,direcao);
 }
+
+
+void _balanceamentoInserir(Nodo **raiz, Nodo *nodo){
+	
+}

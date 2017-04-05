@@ -43,6 +43,7 @@ void inserirB(Nodo **raiz, long int valor){
                 novo->pai = pai;
                 pai->dir = novo;
         }
+		_balanceamentoInserir(raiz,novo);
         printf("inserido %ld, filho de %ld\n",novo->chave, novo->pai->chave);
     }
     else{
