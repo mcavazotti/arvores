@@ -1,7 +1,5 @@
 #include "BST.h"
-
-Nodo *_buscaInserir(Nodo *raiz, long int valor, char *direcao);
-Nodo * _buscaRemover(Nodo *raiz, long int chave, char *direcao);
+#include "BST_aux.h"
 
 
 void inserir(Nodo **raiz, long int valor){
@@ -29,20 +27,31 @@ void inserir(Nodo **raiz, long int valor){
 	atualizaAltura((*raiz));
 }
 
-Nodo * _buscaInserir(Nodo *raiz, long int valor, char *direcao){
-    if(raiz->chave > valor){
-        if(raiz->esq == NULL){
-            (*direcao) = 'e';
-            return raiz;
+void inserirB(Nodo **raiz, long int valor){
+    Nodo *novo = (Nodo *)malloc(sizeof(Nodo));
+    char direcao;
+    (*novo) = (Nodo){NULL, NULL, NULL, valor, 1};
+
+    if((*raiz) != NULL){
+        Nodo *pai = _buscaInserir((*raiz),valor, &direcao);
+        switch(direcao){
+            case 'e':
+                novo->pai = pai;
+                pai->esq = novo;
+            break;
+            case 'd':
+                novo->pai = pai;
+                pai->dir = novo;
         }
-        return _buscaInserir(raiz->esq, valor, direcao);
+        printf("inserido %ld, filho de %ld\n",novo->chave, novo->pai->chave);
     }
-    if(raiz->dir == NULL){
-        (*direcao) = 'd';
-        return raiz;
+    else{
+        (*raiz) = novo;
+        printf("inserido %ld\n", novo->chave);
     }
-    return _buscaInserir(raiz->dir, valor, direcao);
+	atualizaAltura((*raiz));
 }
+
 
 void imprimir_InO(Nodo *raiz){
     if(raiz != NULL){
@@ -198,21 +207,4 @@ void remover(Nodo **raiz, long int chave){
             free(aux);
         }
     }
-}
-
-Nodo * _buscaRemover(Nodo *raiz, long int chave, char *direcao){
-	if(raiz == NULL)
-		return NULL;
-	if(raiz->chave == chave){
-		if(raiz->pai == NULL)
-			(*direcao) = 'n';
-		else if(raiz->pai->esq == raiz)
-			(*direcao) = 'e';
-		else
-			(*direcao) = 'd';
-		return raiz;
-	}
-	if(raiz->chave > chave)
-		return _buscaRemover(raiz->esq, chave,direcao);
-	return _buscaRemover(raiz->dir, chave,direcao);
 }
